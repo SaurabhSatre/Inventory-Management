@@ -7,7 +7,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const theme = createTheme({
-  // You can customize the theme here if needed
   breakpoints: {
     values: {
       xs: 0,
@@ -18,7 +17,6 @@ const theme = createTheme({
     },
   },
 });
-// Create the root element using React 18's createRoot API
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

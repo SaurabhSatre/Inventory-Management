@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/Navbar'; 
 import {
   Container, Typography, Button, Dialog, DialogTitle, DialogContent,
-  DialogActions, TextField, Grid, Card, CardContent, IconButton,
-  Snackbar, Alert, Box
+  DialogActions, TextField, Snackbar, Alert, Box
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'; 
+import { Card as MuiCard, CardContent as MuiCardContent, IconButton as MuiIconButton } from '@mui/material'; 
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const initialFormState = { name: '', quantity: '', price: '', category: '' };
 
-// Styled components for a more attractive UI
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(MuiCard)(({ theme }) => ({ // Changed from Card to MuiCard
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -29,7 +31,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const ProductActions = styled(Box)({
   display: 'flex',
   justifyContent: 'flex-end',
-  marginTop: 'auto', // Pushes actions to the bottom of the card
+  marginTop: 'auto',
 });
 
 const ProductsPage = () => {
@@ -40,8 +42,6 @@ const ProductsPage = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const API_BASE = 'http://localhost:4000/api/v1/product';
-
-  // Load products from server
   const fetchProducts = async () => {
     try {
       const res = await axios.get(API_BASE);
@@ -78,11 +78,9 @@ const ProductsPage = () => {
       };
 
       if (editingProductId) {
-        // Edit product
         await axios.post(`${API_BASE}/edit/${editingProductId}`, data);
         setSnackbar({ open: true, message: 'Product updated!', severity: 'success' });
       } else {
-        // Add product
         await axios.post(`${API_BASE}/add`, data);
         setSnackbar({ open: true, message: 'Product added!', severity: 'success' });
       }
@@ -108,7 +106,7 @@ const ProductsPage = () => {
         await axios.post(`${API_BASE}/delete/${id}`);
         console.log('Deleted successfully');
         setSnackbar({ open: true, message: 'Product deleted!', severity: 'info' });
-        fetchProducts(); // Make sure this is called here
+        fetchProducts();
       } catch (err) {
         console.error('Delete error:', err);
         setSnackbar({ open: true, message: 'Failed to delete product', severity: 'error' });
@@ -117,9 +115,8 @@ const ProductsPage = () => {
   };
 
   const handleLogout = () => {
-    // Clear localStorage or auth tokens here
     localStorage.clear();
-    window.location.href = '/login'; // or redirect to your login route
+    window.location.href = '/login';
   };
 
   return (
@@ -128,7 +125,7 @@ const ProductsPage = () => {
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-            Product Management
+            
           </Typography>
           <Button
             variant="contained"
@@ -142,12 +139,12 @@ const ProductsPage = () => {
           </Button>
         </Box>
 
-        <Grid container spacing={4}>
+        <div className="row">
           {products.length > 0 ? (
-            products.map((product) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+            products.map((product) => (     
+              <div key={product._id} className="col-6 col-lg-3 mb-4"> {/* Added mb-4 for vertical spacing */}
                 <StyledCard elevation={3}>
-                  <CardContent>
+                  <MuiCardContent> 
                     <Typography variant="h6" component="div" sx={{ mb: 1, color: 'text.primary' }}>
                       {product.name}
                     </Typography>
@@ -160,36 +157,34 @@ const ProductsPage = () => {
                     <Typography variant="body2" color="text.secondary">
                       Category: <Typography component="span" sx={{ fontWeight: 'medium' }}>{product.category}</Typography>
                     </Typography>
-                  </CardContent>
+                  </MuiCardContent>
                   <ProductActions>
-                    <IconButton
+                    <MuiIconButton 
                       aria-label="edit"
                       color="primary"
                       onClick={() => handleEdit(product)}
                     >
                       <EditIcon />
-                    </IconButton>
-                    <IconButton
+                    </MuiIconButton>
+                    <MuiIconButton 
                       aria-label="delete"
                       color="error"
                       onClick={() => handleDelete(product._id)}
                     >
                       <DeleteIcon />
-                    </IconButton>
+                    </MuiIconButton>
                   </ProductActions>
                 </StyledCard>
-              </Grid>
+              </div>
             ))
           ) : (
-            <Grid item xs={12}>
+            <div className="col-12">
               <Typography variant="h6" color="text.secondary" align="center" sx={{ mt: 5 }}>
                 No products found. Add some to get started!
               </Typography>
-            </Grid>
+            </div>
           )}
-        </Grid>
-
-        {/* Dialog */}
+        </div>
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
           <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
             {editingProductId ? 'Edit Product' : 'Add New Product'}
@@ -248,7 +243,6 @@ const ProductsPage = () => {
           </DialogActions>
         </Dialog>
 
-        {/* Snackbar */}
         <Snackbar
           open={snackbar.open}
           autoHideDuration={3000}

@@ -1,6 +1,5 @@
 import Product from '../models/product.model.js';
 
-// --- New API: Get all products ---
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({}); // Fetch all products

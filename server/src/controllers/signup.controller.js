@@ -24,21 +24,19 @@ const registerUserController =  async (req, res) => {
     }
 
     try {
-      // This is used if user already exist in database he cannot create an new account
       let checkEmail = await UserModel.findOne({ email: req.body.email });
 
       if (checkEmail) {
           return res.json({ success: false, status: 400, message: "User Already Exists!!" });
       }
       
-
-    // Here bcrypt used first generated salt and that is added in hash
     const salt = await bcrypt.genSalt(10);
     let securePassword = await bcrypt.hash(req.body.password, salt);
 
-    
-      // first we create the user -- the end of sign up 
-      await UserModel.create({
+  
+  
+  
+    await UserModel.create({
         name : req.body.name,
         password : securePassword,
         email : req.body.email

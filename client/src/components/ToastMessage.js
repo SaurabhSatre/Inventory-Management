@@ -5,9 +5,9 @@ const ToastMessage = ({ message, show, onClose, severity }) => {
   useEffect(() => {
     if (show) {
       const timer = setTimeout(() => {
-        onClose();  // Close the toast after 2 seconds
+        onClose();  
       }, 2000);
-      return () => clearTimeout(timer);  // Cleanup the timer on component unmount
+      return () => clearTimeout(timer); 
     }
   }, [show, onClose]);
 
