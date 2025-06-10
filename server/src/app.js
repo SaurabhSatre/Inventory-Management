@@ -21,9 +21,9 @@ const PORT = process.env.PORT || 8000;
 // CORS Configuration
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:8000", "http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true,
+    origin: "*", // Allows requests from all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"], // Explicitly allow common methods, though '*' often implies all
+    credentials: true, // Keep this if your frontend needs to send cookies/auth headers
   })
 );
 
