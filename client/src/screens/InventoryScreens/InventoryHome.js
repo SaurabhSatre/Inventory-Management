@@ -41,7 +41,7 @@ const ProductsPage = () => {
   const [editingProductId, setEditingProductId] = useState(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-  const API_BASE = 'http://localhost:4000/api/v1/product';
+  const API_BASE = 'http://43.204.221.114:8000/api/v1/product';
   const fetchProducts = async () => {
     try {
       const res = await axios.get(API_BASE);

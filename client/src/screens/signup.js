@@ -88,7 +88,7 @@ const SignUpPage = () => {
 
       console.log("This is user URL : " , `${process.env.REACT_APP_BACKENDURL}/api/v1/user/signup`);
 
-      const res = await fetch(`http://localhost:4000/api/v1/user/signup`, {
+      const res = await fetch(`http://43.204.221.114:8000/api/v1/user/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
