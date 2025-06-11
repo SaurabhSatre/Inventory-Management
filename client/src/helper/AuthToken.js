@@ -1,4 +1,4 @@
-import { jwtDecode  } from 'jwt-decode'; // ✅ Correct
+import { jwtDecode } from 'jwt-decode'; // ✅ Correct
 
 
 class AuthToken {
@@ -46,7 +46,7 @@ class AuthToken {
     return decoded?.userDetails?.email || null;
   }
 
-  static getUserName() {
+  static getName() {
     const decoded = AuthToken.decodeToken();
     return decoded?.userDetails?.name || null;
   }

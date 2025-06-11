@@ -69,7 +69,7 @@ const Login = () => {
 
       const userData = { email, password };
 
-      const res = await fetch(`http://43.204.221.114:8000/api/v1/user/login`, {
+      const res = await fetch(`http://localhost:8000/api/v1/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

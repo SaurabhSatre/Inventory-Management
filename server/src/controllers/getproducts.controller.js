@@ -2,7 +2,8 @@ import Product from '../models/product.model.js';
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({}); // Fetch all products
+    const email = req.userDetails.email;
+    const products = await Product.find({email}); // Fetch all products
     res.status(200).json(products);
   } catch (error) {
     console.error('Get all products error:', error);

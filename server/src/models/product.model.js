@@ -6,6 +6,16 @@ const productSchema = new mongoose.Schema({
   quantity: { type: Number, required: true, min: 0 },
   price: { type: Number, required: true, min: 0 },
   category: { type: String, required: true, trim: true },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    match: [
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      'Please enter a valid email address',
+    ],
+  },
 }, {
   timestamps: true,
 });

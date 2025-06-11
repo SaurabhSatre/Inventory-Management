@@ -8,10 +8,10 @@ import getAllProducts from "../controllers/getproducts.controller.js";
 
 const router = express.Router();
 
-router.post("/product/add" , addProduct);
+router.post("/product/add" , authenticateUserMiddleware, addProduct);
 router.post("/product/edit/:id" , editProduct);
 router.post("/product/delete/:id" , deleteProduct);
-router.get("/product" , getAllProducts);
+router.get("/product" , authenticateUserMiddleware, getAllProducts);
 
 // router.get("/user/info" , authenticateUserMiddleware , getUserInfoController);
 

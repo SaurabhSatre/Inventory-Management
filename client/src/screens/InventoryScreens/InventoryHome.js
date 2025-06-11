@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar'; 
+import Navbar from '../../components/Navbar';
 import {
   Container, Typography, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, Snackbar, Alert, Box
@@ -8,10 +8,11 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/material/styles'; 
-import { Card as MuiCard, CardContent as MuiCardContent, IconButton as MuiIconButton } from '@mui/material'; 
+import { styled } from '@mui/material/styles';
+import { Card as MuiCard, CardContent as MuiCardContent, IconButton as MuiIconButton } from '@mui/material';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AuthToken from '../../helper/AuthToken';
 
 
 const initialFormState = { name: '', quantity: '', price: '', category: '' };
@@ -41,10 +42,20 @@ const ProductsPage = () => {
   const [editingProductId, setEditingProductId] = useState(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-  const API_BASE = 'http://43.204.221.114:8000/api/v1/product';
+  const userName = AuthToken.getName();
+
+  const API_BASE = 'http://localhost:8000/api/v1/product';
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(API_BASE);
+
+      const token = AuthToken.getToken();
+
+      const res = await axios.get(`${API_BASE}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       setProducts(res.data);
     } catch (err) {
       console.error('Fetch error:', err);
@@ -77,11 +88,18 @@ const ProductsPage = () => {
         price: Number(formData.price),
       };
 
+      const token = AuthToken.getToken();
+
       if (editingProductId) {
         await axios.post(`${API_BASE}/edit/${editingProductId}`, data);
         setSnackbar({ open: true, message: 'Product updated!', severity: 'success' });
       } else {
-        await axios.post(`${API_BASE}/add`, data);
+        await axios.post(`${API_BASE}/add`, data, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'  // optional but good practice
+          }
+        });
         setSnackbar({ open: true, message: 'Product added!', severity: 'success' });
       }
 
@@ -121,11 +139,11 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Navbar onLogout={handleLogout} />
+      <Navbar onLogout={handleLogout} name={userName} />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-            
+
           </Typography>
           <Button
             variant="contained"
@@ -141,10 +159,10 @@ const ProductsPage = () => {
 
         <div className="row">
           {products.length > 0 ? (
-            products.map((product) => (     
+            products.map((product) => (
               <div key={product._id} className="col-6 col-lg-3 mb-4"> {/* Added mb-4 for vertical spacing */}
                 <StyledCard elevation={3}>
-                  <MuiCardContent> 
+                  <MuiCardContent>
                     <Typography variant="h6" component="div" sx={{ mb: 1, color: 'text.primary' }}>
                       {product.name}
                     </Typography>
@@ -159,14 +177,14 @@ const ProductsPage = () => {
                     </Typography>
                   </MuiCardContent>
                   <ProductActions>
-                    <MuiIconButton 
+                    <MuiIconButton
                       aria-label="edit"
                       color="primary"
                       onClick={() => handleEdit(product)}
                     >
                       <EditIcon />
                     </MuiIconButton>
-                    <MuiIconButton 
+                    <MuiIconButton
                       aria-label="delete"
                       color="error"
                       onClick={() => handleDelete(product._id)}

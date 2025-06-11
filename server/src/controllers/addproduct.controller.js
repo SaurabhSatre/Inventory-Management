@@ -4,7 +4,9 @@ const addProduct = async (req, res) => {
   try {
     const { name, quantity, price, category } = req.body;
 
-    if (!name || !quantity || !price || !category) {
+    const email = req.userDetails.email;
+
+    if (!name || !quantity || !price || !category || !email) {
       return res.status(400).json({ message: 'All product fields (name, quantity, price, category) are required.' });
     }
 
@@ -33,6 +35,7 @@ const addProduct = async (req, res) => {
       quantity: parsedQuantity, 
       price: parsedPrice,       
       category: sanitizedCategory,
+      email
     });
 
     const savedProduct = await newProduct.save();

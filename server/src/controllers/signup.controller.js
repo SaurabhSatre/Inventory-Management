@@ -11,7 +11,7 @@ import { validateEmail, validatePassword } from "../utils/helper.functions.js";
 // This api is created for the SignUp procedure of the user
 
 const registerUserController =  async (req, res) => {
-
+    // console.log(req);
     const {email , name , password }  = req.body;
 
     if (!name || name.trim().length < 2) {
@@ -32,9 +32,6 @@ const registerUserController =  async (req, res) => {
       
     const salt = await bcrypt.genSalt(10);
     let securePassword = await bcrypt.hash(req.body.password, salt);
-
-  
-  
   
     await UserModel.create({
         name : req.body.name,
