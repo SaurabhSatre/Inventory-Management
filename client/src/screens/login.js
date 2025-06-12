@@ -172,7 +172,6 @@ const Login = () => {
               textDecoration: "underline",
             }}
           >
-            Forgot Password?
           </Typography>
           <Typography
             variant="body2"

@@ -5,7 +5,7 @@ class ApiError extends Error {
     this.name = this.constructor.name;
     this.status = "error";
     this.statusCode = statusCode;
-    this.isOperational = true; // Marks it as an expected error
+    this.isOperational = true; 
 
     Error.captureStackTrace(this, this.constructor);
   }

@@ -9,13 +9,3 @@ export const validatePassword = (password) => {
     return passwordRegex.test(password);
 };
 
-/*
-
-The password must:
-Be at least 8 characters long.
-Contain at least one lowercase letter.
-Contain at least one uppercase letter.
-Contain at least one digit (0-9).
-Contain at least one special character (@$!%*?&# or similar).
-
-*/

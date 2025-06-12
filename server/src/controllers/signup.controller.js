@@ -3,15 +3,10 @@ import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
 
-/* Bcrypt turns a simple password into fixed-length characters called a hash. Before hashing a password,
- bcrypt applies a salt — a unique random string that makes the hash unpredictable */
 import  bcrypt from "bcryptjs";
 import { validateEmail, validatePassword } from "../utils/helper.functions.js";
 
-// This api is created for the SignUp procedure of the user
-
 const registerUserController =  async (req, res) => {
-    // console.log(req);
     const {email , name , password }  = req.body;
 
     if (!name || name.trim().length < 2) {

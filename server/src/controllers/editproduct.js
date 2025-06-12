@@ -1,18 +1,14 @@
 import Product from '../models/product.model.js';
 
-// Edit an existing product
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, quantity, price, category } = req.body;
 
-    // --- 1. Input Validation for 'id' ---
-    // Check if 'id' is provided
     if (!id) {
       return res.status(400).json({ message: 'Product ID is required for editing.' });
     }
 
-    // Validate 'id' format (assuming MongoDB ObjectId format)
     if (typeof id !== 'string' || id.length !== 24 || !/^[0-9a-fA-F]+$/.test(id)) {
       return res.status(400).json({ message: 'Invalid product ID format.' });
     }
